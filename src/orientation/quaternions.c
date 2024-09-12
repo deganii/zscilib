@@ -460,7 +460,7 @@ int zsl_quat_from_ang_vel(struct zsl_vec *w, struct zsl_quat *qin,
 
 	struct zsl_quat qin2;
 	struct zsl_quat qout2;
-	struct zsl_quat wq;
+	struct zsl_quat qw;
 	struct zsl_quat wquat = {
 		.r = 0.0,
 		.i = w->data[0],
@@ -469,12 +469,12 @@ int zsl_quat_from_ang_vel(struct zsl_vec *w, struct zsl_quat *qin,
 	};
 
 	zsl_quat_to_unit(qin, &qin2);
-	zsl_quat_mult(&wquat, &qin2, &wq);
-	zsl_quat_scale_d(&wq, 0.5 * t);
-	qout2.r = qin2.r + wq.r;
-	qout2.i = qin2.i + wq.i;
-	qout2.j = qin2.j + wq.j;
-	qout2.k = qin2.k + wq.k;
+	zsl_quat_mult(&qin2, &wquat, &qw);
+	zsl_quat_scale_d(&qw, 0.5 * t);
+	qout2.r = qin2.r + qw.r;
+	qout2.i = qin2.i + qw.i;
+	qout2.j = qin2.j + qw.j;
+	qout2.k = qin2.k + qw.k;
 
 	zsl_quat_to_unit(&qout2, qout);
 
